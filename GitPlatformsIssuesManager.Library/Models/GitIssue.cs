@@ -3,6 +3,7 @@
 public class GitIssue
 {
     public long? Id { get; set; }
+    public long? IssueId { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
     public string? State { get; set; } = "open";

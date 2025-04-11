@@ -4,7 +4,6 @@ using GitPlatformsIssuesManager.Library.Models;
 using GitPlatformsIssuesManager.Library.Models.PlatformConfig;
 using System.Net;
 using System.Net.Http.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GitPlatformsIssuesManager.Library.Platforms;
 
@@ -86,8 +85,8 @@ public class GitHubPlatform : IGitPlatform
         var response = await _httpClient.PatchAsJsonAsync(url, gitHubIssue);
         if (response.IsSuccessStatusCode)
         {
-            var createdIssue = await response.Content.ReadFromJsonAsync<GitHubIssue>();
-            return _mapper.Map<GitIssue>(createdIssue);
+            var modifiedIssue = await response.Content.ReadFromJsonAsync<GitHubIssue>();
+            return _mapper.Map<GitIssue>(modifiedIssue);
         }
         return null;
     }
