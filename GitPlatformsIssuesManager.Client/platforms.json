@@ -1,0 +1,44 @@
+[
+  {
+    "PlatformName": "GitHub",
+    "BaseUrl": "https://api.github.com/",
+    "DefaultOwner": "AvePaweu",
+    "DefaultRepo": "cv-pawel-chatlas",
+    "RequestHeaders": [
+      {
+        "Name": "X-GitHub-Api-Version",
+        "Value": "2022-11-28"
+      },
+      {
+        "Name": "Accept",
+        "Value": "application/vnd.github+json"
+      },
+      {
+        "Name": "Authorization",
+        "Value": "Bearer <<ENTER_YOUR_API_KEY_HERE>>"
+      }
+    ],
+    "EndpointsUrls": [
+      {
+        "Name": "ListRepositoryIssues",
+        "Method": "GET",
+        "Url": "repos/{OWNER}/{REPO}/issues?state=all&per_page=100"
+      },
+      {
+        "Name": "GetAnIssue",
+        "Method": "GET",
+        "Url": "repos/{OWNER}/{REPO}/issues/{ISSUE_NUMBER}"
+      },
+      {
+        "Name": "CreateAnIssue",
+        "Method": "POST",
+        "Url": "repos/{OWNER}/{REPO}/issues"
+      },
+      {
+        "Name": "ModifyAnIssue",
+        "Method": "PATCH",
+        "Url": "repos/{OWNER}/{REPO}/issues/{ISSUE_NUMBER}"
+      }
+    ]
+  }
+]
