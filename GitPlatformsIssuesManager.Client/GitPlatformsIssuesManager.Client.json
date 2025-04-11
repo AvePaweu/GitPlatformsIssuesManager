@@ -314,6 +314,11 @@
             "format": "int64",
             "nullable": true
           },
+          "issueId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
           "name": {
             "type": "string",
             "nullable": true
