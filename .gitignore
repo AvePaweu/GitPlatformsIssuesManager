@@ -2,3 +2,5 @@
 .vs/
 *.sln
 .github/
+**/[Bb]in/
+**/[Oo]bj/

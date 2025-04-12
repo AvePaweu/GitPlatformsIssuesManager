@@ -25,6 +25,11 @@
         "Url": "repos/{OWNER}/{REPO}/issues?state=all"
       },
       {
+        "Name": "GetAnIssue",
+        "Method": "GET",
+        "Url": "repos/{OWNER}/{REPO}/issues/{ISSUE_NUMBER}"
+      },
+      {
         "Name": "CreateAnIssue",
         "Method": "POST",
         "Url": "repos/{OWNER}/{REPO}/issues"
@@ -33,6 +38,45 @@
         "Name": "ModifyAnIssue",
         "Method": "PATCH",
         "Url": "repos/{OWNER}/{REPO}/issues/{ISSUE_NUMBER}"
+      }
+    ]
+  },
+  {
+    "PlatformName": "GitLab",
+    "BaseUrl": "https://gitlab.com/api/v4/",
+    "DefaultOwner": "pawelchatlas",
+    "DefaultRepo": "test-project",
+    "RequestHeaders": [
+      {
+        "Name": "Authorization",
+        "Value": "Bearer <<ENTER_YOUR_API_KEY_HERE>>"
+      }
+    ],
+    "EndpointsUrls": [
+      {
+        "Name": "ListRepositoryIssues",
+        "Method": "GET",
+        "Url": "projects/{PROJECT_ID}/issues?per_page=100"
+      },
+      {
+        "Name": "GetAnIssue",
+        "Method": "GET",
+        "Url": "projects/{PROJECT_ID}/issues/{ISSUE_NUMBER}"
+      },
+      {
+        "Name": "CreateAnIssue",
+        "Method": "POST",
+        "Url": "projects/{PROJECT_ID}/issues"
+      },
+      {
+        "Name": "ModifyAnIssue",
+        "Method": "PUT",
+        "Url": "projects/{PROJECT_ID}/issues/{ISSUE_NUMBER}"
+      },
+      {
+        "Name": "FindRepositoryId",
+        "Method": "GET",
+        "Url": "search?scope=projects&search={OWNER}%2F{REPO}"
       }
     ]
   }

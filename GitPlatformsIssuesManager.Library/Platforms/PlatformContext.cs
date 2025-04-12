@@ -15,6 +15,7 @@ public class PlatformContext
     private PlatformConfig _platformConfig;
 
     public PlatformConfig PlatformConfig => _platformConfig;
+    public HttpClient HttpClient => EstablishHttpClient(_platformConfig);
 
     public PlatformContext() { }
 
@@ -47,7 +48,7 @@ public class PlatformContext
     /// </summary>
     /// <param name="platformConfig"></param>
     /// <returns>Object of HttpClient class with initialized BaseAddress and headers (except User-Agent)</returns>
-    public static HttpClient EstablishHttpClient(PlatformConfig platformConfig)
+    public HttpClient EstablishHttpClient(PlatformConfig platformConfig)
     {
         if (platformConfig is null) return new HttpClient();
         var httpClient = new HttpClient() { BaseAddress = new Uri(platformConfig.BaseUrl) };
