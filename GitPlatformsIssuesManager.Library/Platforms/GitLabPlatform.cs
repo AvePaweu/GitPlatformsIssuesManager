@@ -36,7 +36,7 @@ public class GitLabPlatform : IGitPlatform
     public async Task<GitIssue> CloseIssue(string owner, string repo, int number)
     {
         var issueToClose = await GetIssue(owner, repo, number);
-        if (issueToClose is null || issueToClose.State == "closed") throw new Exception("That issue is already closed!");
+        if (issueToClose is null || issueToClose.State == "closed") return new GitIssue { Name = "That issue is already closed!" };
         issueToClose.State = "closed";
         var editIssueDto = _mapper.Map<EditIssueDto>(issueToClose);
         return await ModifyIssue(editIssueDto, owner, repo, number);

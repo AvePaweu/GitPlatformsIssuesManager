@@ -1,10 +1,9 @@
-﻿using GitPlatformsIssuesManager.Library;
-using GitPlatformsIssuesManager.Library.Models;
-using GitPlatformsIssuesManager.Library.Models.PlatformConfig;
-using AutoMapper;
-using GitPlatformsIssuesManager.Library.Platforms;
-using System.Net.Http.Headers;
+﻿using AutoMapper;
 using GitPlatformsIssuesManager.Library.Dtos;
+using GitPlatformsIssuesManager.Library.Models.PlatformConfig;
+using GitPlatformsIssuesManager.Library.Platforms;
+using GitPlatformsIssuesManager.Library.Profiles;
+using RichardSzalay.MockHttp;
 
 namespace GitPlatformsIssuesManager.Tests;
 
@@ -13,22 +12,29 @@ public class GitLabPlatformTests
     private readonly string _platformName = "GitLab";
     private readonly string _defaultOwner = "pawelchatlas";
     private readonly string _defaultRepo = "test-project";
-    private readonly long? _projectId = 68896883;
     private readonly int _issueId = 1;
     private readonly IMapper _mapper;
+    private PlatformConfig _platformConfig;
+
+    public GitLabPlatformTests()
+    {
+        _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new IssuesProfile())));
+        _platformConfig = new PlatformConfig(_platformName);
+    }
 
     [Fact]
     public void Get_PlatformConfig_CheckDefaultValues()
     {
-        var platformConfig = new PlatformConfig(_platformName);
-        Assert.Equal(platformConfig.DefaultOwner, _defaultOwner);
-        Assert.Equal(platformConfig.DefaultRepo, _defaultRepo);
+        Assert.Equal(_platformConfig.DefaultOwner, _defaultOwner);
+        Assert.Equal(_platformConfig.DefaultRepo, _defaultRepo);
     }
 
     [Fact]
     public void Get_HttpClient_CheckIfContainsAuthorizationHeader()
     {
         var platformContext = new PlatformContext(_mapper, _platformName);
+        var mockHttp = new MockHttpMessageHandler();
+        platformContext.HttpClient = SetupClient(mockHttp, _platformConfig);
         var httpClient = platformContext.HttpClient;
         Assert.StartsWith(httpClient.DefaultRequestHeaders.Authorization!.Scheme, "Bearer");
     }
@@ -71,8 +77,19 @@ public class GitLabPlatformTests
     public async Task Close_Issue_CheckIfIssueHasClosed()
     {
         var platformContext = new PlatformContext(_mapper, _platformName);
-        var issueToClose = new EditIssueDto { State = "closed" };
+        var issueToClose = new EditIssueDto { Title = "Test modifying issue", State = "closed" };
         var closedIssue = await platformContext.ModifyIssue(issueToClose, _defaultOwner, _defaultRepo, _issueId);
         Assert.Equal(issueToClose.State, closedIssue.State);
+    }
+
+    private HttpClient SetupClient(MockHttpMessageHandler mockHttpMessageHandler, PlatformConfig platformConfig)
+    {
+        var client = new HttpClient(mockHttpMessageHandler);
+        client.BaseAddress = new Uri(platformConfig.BaseUrl);
+        foreach (var header in platformConfig.RequestHeaders)
+        {
+            client.DefaultRequestHeaders.Add(header.Name, header.Value);
+        }
+        return client;
     }
 }

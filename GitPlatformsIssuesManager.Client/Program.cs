@@ -1,13 +1,14 @@
 using AutoMapper;
 using GitPlatformsIssuesManager.Client.Services;
 using GitPlatformsIssuesManager.Library.Dtos;
+using GitPlatformsIssuesManager.Library.Profiles;
 using Microsoft.AspNetCore.Mvc;
 using System.Buffers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(IssuesProfile));
 
 var app = builder.Build();
 

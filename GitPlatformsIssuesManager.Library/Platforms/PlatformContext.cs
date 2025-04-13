@@ -15,7 +15,7 @@ public class PlatformContext
     private PlatformConfig _platformConfig;
 
     public PlatformConfig PlatformConfig => _platformConfig;
-    public HttpClient HttpClient => EstablishHttpClient(_platformConfig);
+    public HttpClient HttpClient { get; set; }
 
     public PlatformContext() { }
 
